@@ -1,6 +1,6 @@
 FROM python:3.14-slim-bookworm
 
-LABEL maintainer="Silverarmor"
+LABEL maintainer="Tzur Soffer"
 
 # Allow customizing the user/group IDs
 # Default to 1000
