@@ -41,7 +41,7 @@ class AzLyrics(LyricsProvider):
             }
         )
 
-        self.x_code = self._get_x_code()
+        self.x_code = None
 
     def get_results(self, name: str, artists: List[str], **_) -> Dict[str, str]:
         """
