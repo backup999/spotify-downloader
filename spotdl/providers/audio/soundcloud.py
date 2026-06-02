@@ -83,6 +83,7 @@ class SoundCloud(AudioProvider):
                     verified=result.user.verified,
                     duration=result.full_duration,
                     author=result.user.username,
+                    artists=(result.user.username,),
                     result_id=str(result.id),
                     isrc_search=False,
                     search_query=search_term,
