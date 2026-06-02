@@ -6,6 +6,7 @@ from spotdl.utils.formatter import (
     create_song_title,
     parse_duration,
     sanitize_string,
+    slugify,
 )
 
 
@@ -166,3 +167,12 @@ def test_parse_duration():
     assert parse_duration("views") == float(0.0)
     assert parse_duration([1, 2, 3]) == float(0.0)  # type: ignore
     assert parse_duration({"json": "data"}) == float(0.0)  # type: ignore
+
+
+def test_slugify_none_and_empty():
+    """
+    Test that slugify handles None and empty strings without crashing.
+    """
+
+    assert slugify(None) == ""
+    assert slugify("") == ""
