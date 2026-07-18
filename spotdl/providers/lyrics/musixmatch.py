@@ -78,7 +78,7 @@ class MusixMatch(LyricsProvider):
             proxies=GlobalConfig.get_parameter("proxies"),
         )
 
-       if not search_resp.ok:
+        if not search_resp.ok:
             raise RuntimeError(
                 f"Received HTTP {search_resp.status_code} from {search_url}"
             )
