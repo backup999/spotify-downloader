@@ -287,8 +287,7 @@ def get_best_matches(
 
 def calc_main_artist_match(song: Song, result: Result) -> float:
     """
-    Calculate how well the main artist of the song matches the result.
-    Falls back to result.author if result.artists is not populated.
+    Calculate how well the song's main artist matches the result artists.
 
     ### Arguments
     - song: song to match
@@ -300,13 +299,9 @@ def calc_main_artist_match(song: Song, result: Result) -> float:
 
     main_artist_match = 0.0
 
-    # Result has no artists, fall back to author
-    # If no author either, return 0.0
+    # Result has no artists, return 0.0
     if not result.artists:
-        if not result.author:
-            return main_artist_match
-
-        return ratio(slugify(song.artists[0]), slugify(result.author))
+        return main_artist_match
 
     song_artists, result_artists = list(map(slugify, song.artists)), list(
         map(slugify, result.artists)
