@@ -445,10 +445,6 @@ async def async_convert(
     - Make sure to check if ffmpeg is installed before calling this function.
     """
 
-    arguments = _build_ffmpeg_arguments(
-        input_file, output_file, output_format, bitrate, ffmpeg_args
-    )
-
     loop = asyncio.get_running_loop()
     if sys.platform == "win32" and not isinstance(loop, asyncio.ProactorEventLoop):
         return await loop.run_in_executor(
@@ -462,6 +458,10 @@ async def async_convert(
             ffmpeg_args,
             progress_handler,
         )
+
+    arguments = _build_ffmpeg_arguments(
+        input_file, output_file, output_format, bitrate, ffmpeg_args
+    )
 
     process = await asyncio.create_subprocess_exec(
         ffmpeg,
