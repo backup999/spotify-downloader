@@ -366,7 +366,8 @@ class Downloader:
         - tuple with the song and the path to the downloaded file if successful.
 
         ### Notes
-        - This method awaits self.async_search_and_download on the event loop, limited by the semaphore.
+        - This method awaits `self.async_search_and_download` on the event loop,
+            limited by the semaphore.
         """
 
         # tasks that cannot acquire semaphore will wait here until it's free
