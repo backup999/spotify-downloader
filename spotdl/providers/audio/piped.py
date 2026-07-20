@@ -2,6 +2,7 @@
 Piped module for downloading and searching songs.
 """
 
+import logging
 from collections.abc import Mapping
 from typing import Any, Dict, List, Optional
 from urllib.parse import parse_qs, urlparse
@@ -14,6 +15,7 @@ from spotdl.types.result import Result
 from spotdl.utils.config import GlobalConfig
 
 __all__ = ["Piped"]
+logger = logging.getLogger(__name__)
 
 HEADERS = {
     "accept": "*/*",
@@ -104,22 +106,35 @@ class Piped(AudioProvider):
                 proxies=GlobalConfig.get_parameter("proxies"),
                 timeout=20,
             )
-        except requests.RequestException:
+        except requests.RequestException as exc:
+            logger.debug("Piped search failed for query %s: %s", search_term, exc)
             return []
 
         if response.status_code != 200:
+            logger.debug(
+                "Piped search for query %s returned status code %s",
+                search_term,
+                response.status_code,
+            )
             return []
 
         try:
             search_results = response.json()
         except JSONDecodeError:
+            logger.debug("Piped search for query %s returned invalid JSON", search_term)
             return []
 
         if not isinstance(search_results, Mapping):
+            logger.debug(
+                "Piped search for query %s returned a malformed response", search_term
+            )
             return []
 
         items = search_results.get("items", [])
         if not isinstance(items, list):
+            logger.debug(
+                "Piped search for query %s returned a malformed response", search_term
+            )
             return []
 
         results = []

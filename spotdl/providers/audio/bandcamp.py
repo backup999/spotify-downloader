@@ -106,7 +106,12 @@ class BandCampTrack:
                 JSONDecodeError,
                 KeyError,
                 TypeError,
-            ):
+            ) as exc:
+                logger.debug(
+                    "Failed to get lyrics for BandCamp track %s: %s",
+                    self.track_id,
+                    exc,
+                )
                 self.lyrics = ""
 
         self.is_price_set = result.get("is_set_price")
@@ -168,7 +173,8 @@ def search(search_string: str = ""):
             proxies=GlobalConfig.get_parameter("proxies"),
         )
         results = response.json()["results"]
-    except (requests.RequestException, JSONDecodeError, KeyError, TypeError):
+    except (requests.RequestException, JSONDecodeError, KeyError, TypeError) as exc:
+        logger.debug("BandCamp search failed for query %s: %s", search_string, exc)
         return []
 
     return_results: List[Tuple[str, str]] = []
@@ -224,7 +230,8 @@ class BandCamp(AudioProvider):
                 IndexError,
                 TypeError,
                 ValueError,
-            ):
+            ) as exc:
+                logger.debug("Failed to get BandCamp track %s: %s", result, exc)
                 continue
 
             if not all(
