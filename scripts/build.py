@@ -11,11 +11,14 @@ import pykakasi
 import yt_dlp
 import ytmusicapi
 
+import spotdl
 from spotdl._version import __version__
 
 LOCALES_PATH = str((Path(ytmusicapi.__file__).parent / "locales"))
 PYKAKASI_PATH = str((Path(pykakasi.__file__).parent / "data"))
 YTDLP_PATH = str(Path(yt_dlp.__file__).parent / "__pyinstaller")
+WEB_STATIC_PATH = str(Path(spotdl.__file__).parent / "web" / "static")
+WEB_COMPONENTS_PATH = str(Path(spotdl.__file__).parent / "web" / "components")
 
 # Read modules from pyproject.toml
 modules = set(
@@ -60,6 +63,10 @@ PyInstaller.__main__.run(
         f"{LOCALES_PATH}{os.pathsep}ytmusicapi/locales",
         "--add-data",
         f"{PYKAKASI_PATH}{os.pathsep}pykakasi/data",
+        "--add-data",
+        f"{WEB_STATIC_PATH}{os.pathsep}spotdl/web/static",
+        "--add-data",
+        f"{WEB_COMPONENTS_PATH}{os.pathsep}spotdl/web/components",
         "--add-binary",
         f"{TLS_CLIENT_BINARY}{os.pathsep}tls_client/dependencies",
         f"--additional-hooks-dir={YTDLP_PATH}",
