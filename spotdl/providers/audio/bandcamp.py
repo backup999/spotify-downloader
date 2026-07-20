@@ -101,7 +101,12 @@ class BandCampTrack:
                 lyrics = rjson["lyrics"]
                 if isinstance(lyrics, Mapping):
                     self.lyrics = lyrics.get(str(self.track_id)) or ""
-            except (requests.RequestException, JSONDecodeError, KeyError, TypeError):
+            except (
+                requests.RequestException,
+                JSONDecodeError,
+                KeyError,
+                TypeError,
+            ):
                 self.lyrics = ""
 
         self.is_price_set = result.get("is_set_price")
